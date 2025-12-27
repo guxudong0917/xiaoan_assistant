@@ -12,7 +12,7 @@ services:
       - "8080:8080"
     environment:
       - PORT=8080
-      - FRONTEND_URL=http://localhost
+      - FRONTEND_URL=http://47.95.38.64
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
       - GEMINI_API_KEY=${GEMINI_API_KEY}
