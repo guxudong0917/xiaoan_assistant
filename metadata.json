@@ -1,0 +1,8 @@
+{
+  "name": "九安AI (JiuAn AI)",
+  "description": "A warm, proactive health companion featuring smart monitoring, CBT support, nutrition analysis, and health memories.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
