@@ -1,0 +1,1018 @@
+app:
+  description: 九安智能健康助手
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 小安（专家增强版）
+  use_icon_as_answer_icon: true
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: axdlee/sophnet:0.0.5@bea97ce968f4d3b5f60d890ccee7508b6c4ee22cb58aaa951bcaba53d0c6c603
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/siliconflow:0.0.39@24cca06d03099357488b00b84ba59d39e76373478cb8b2cabd3a0a2aa1fe975b
+    version: null
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/zhipuai:0.0.23@7e6213a06c26b17b5dfc2416db36f664d4fb08252bd1644ca54a82a6cc7a8609
+    version: null
+kind: app
+version: 0.5.0
+workflow:
+  conversation_variables:
+  - description: 当前识别到的意图
+    id: b9f99845-798a-4560-a099-f23323ee0b96
+    name: current_intent
+    selector:
+    - conversation
+    - current_intent
+    value: ''
+    value_type: string
+  - description: 最近的血糖/饮食记录摘要（从Python后端拉取）。
+    id: 7b892a06-2d88-4149-a136-df1e4d9d10ae
+    name: recent_history
+    selector:
+    - conversation
+    - recent_history
+    value: ''
+    value_type: string
+  - description: 用户的健康档案（从Python后端拉取，如：2型糖尿病，目标血糖范围）
+    id: 456c5239-3f04-4b3e-adbb-f53aa4da40d2
+    name: user_profile
+    selector:
+    - conversation
+    - user_profile
+    value: ''
+    value_type: string
+  - description: 用户唯一标识（从前端传入）
+    id: ce0ceb0f-2d2a-42ae-a7e3-c70e75767b6c
+    name: user_id
+    selector:
+    - conversation
+    - user_id
+    value: ''
+    value_type: string
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      - document
+      allowed_file_upload_methods:
+      - remote_url
+      - local_file
+      enabled: true
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: true
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: true
+    text_to_speech:
+      enabled: true
+      language: ''
+      voice: FunAudioLLM/CosyVoice2-0.5B:anna
+  graph:
+    edges:
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+    - data:
+        isInLoop: false
+        sourceType: start
+        targetType: http-request
+      id: 1766828924560-source-1766842206991-target
+      selected: false
+      source: '1766828924560'
+      sourceHandle: source
+      target: '1766842206991'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: answer
+        targetType: llm
+      id: answer-source-1766844162435-target
+      selected: false
+      source: answer
+      sourceHandle: source
+      target: '1766844162435'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: http-request
+      id: 1766844162435-source-1766842751858-target
+      selected: false
+      source: '1766844162435'
+      sourceHandle: source
+      target: '1766842751858'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1766828924560-source-1766851226911-target
+      selected: false
+      source: '1766828924560'
+      sourceHandle: source
+      target: '1766851226911'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: http-request
+        targetType: if-else
+      id: 1766842206991-source-1766851226911-target
+      selected: false
+      source: '1766842206991'
+      sourceHandle: source
+      target: '1766851226911'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1766851226911-true-1766849726566-target
+      source: '1766851226911'
+      sourceHandle: 'true'
+      target: '1766849726566'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1766849726566-source-17668548655180-target
+      source: '1766849726566'
+      sourceHandle: source
+      target: '17668548655180'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: question-classifier
+      id: 1766851226911-false-1766855892240-target
+      source: '1766851226911'
+      sourceHandle: 'false'
+      target: '1766855892240'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1766855892240-1-1766850848375-target
+      source: '1766855892240'
+      sourceHandle: '1'
+      target: '1766850848375'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1766851580944-source-llm-target
+      source: '1766851580944'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1766851691399-source-llm-target
+      source: '1766851691399'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: llm
+      id: 1766851785980-source-llm-target
+      source: '1766851785980'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: llm
+      id: 1766855892240-2-17668565556480-target
+      source: '1766855892240'
+      sourceHandle: '2'
+      target: '17668565556480'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17668565556480-source-1766856614268-target
+      source: '17668565556480'
+      sourceHandle: source
+      target: '1766856614268'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1766860222886-source-1766851580944-target
+      source: '1766860222886'
+      sourceHandle: source
+      target: '1766851580944'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1766860222886-source-1766851691399-target
+      source: '1766860222886'
+      sourceHandle: source
+      target: '1766851691399'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1766860222886-source-1766851785980-target
+      source: '1766860222886'
+      sourceHandle: source
+      target: '1766851785980'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 17668548655180-source-1766860921034-target
+      source: '17668548655180'
+      sourceHandle: source
+      target: '1766860921034'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: code
+        targetType: knowledge-retrieval
+      id: 1766860921034-source-1766860222886-target
+      source: '1766860921034'
+      sourceHandle: source
+      target: '1766860222886'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: code
+      id: 1766850848375-source-1766860921034-target
+      source: '1766850848375'
+      sourceHandle: source
+      target: '1766860921034'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 73
+      id: '1766828924560'
+      position:
+        x: 0
+        y: 195
+      positionAbsolute:
+        x: 0
+        y: 195
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: gemini-3-pro-preview
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: b7babc51-fedf-43d7-895e-1674ed52f37e
+          role: system
+          text: "# 角色定位\n你是「小安智能助手」，九安医疗专属糖尿病血糖健康管理助手。\n\n# 输入来源\n专家分析报告：\n{{#1766851580944.text#}}\
+            \ (即时分析)、\n{{#1766851785980.text#}}(科普)、\n{{#1766851691399.text#}}(心理)；\n\
+            \n用户原始问题：\n{{#sys.query#}}；\n\n参考知识库：\n{{#context#}}\n\n# 处理逻辑\n1. **优先处理专家报告**：如果上面的“专家分析报告”中有内容，请务必基于专家的分析结果，用温暖的口语转化为对用户的回复。\n\
+            2. **闲聊模式 (Fast Track)**：如果“专家分析报告”**全为空**（说明走了闲聊快速通道），则直接针对“用户原始问题”进行回复。\n\
+            \   - 如果用户说“你好”，请做简短的自我介绍。\n   - 保持热情、简洁，不要凭空捏造医疗建议。\n\n# 回复风格\n温和、专业、像个老朋友。"
+        selected: false
+        title: 小安智能助手核心大脑
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: llm
+      position:
+        x: 2834
+        y: 210
+      positionAbsolute:
+        x: 2834
+        y: 210
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 103
+      id: answer
+      position:
+        x: 3176
+        y: 202
+      positionAbsolute:
+        x: 3176
+        y: 202
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data: []
+          type: none
+        desc: 请求记忆
+        headers: ''
+        method: get
+        params: 'user_id:{{#sys.user_id#}}
+
+          limit:100'
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: dify-memory1
+        type: http-request
+        url: http://172.17.0.1:5005/get
+        variables: []
+      height: 150
+      id: '1766842206991'
+      position:
+        x: 362
+        y: 44
+      positionAbsolute:
+        x: 362
+        y: 44
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        authorization:
+          config: null
+          type: no-auth
+        body:
+          data:
+          - id: key-value-239
+            key: ''
+            type: text
+            value: "{\n  \"user_id\": \"{{#sys.user_id#}}\",\n  \"content\": \"{{#1766844162435.text#}}\"\
+              \n}"
+          type: json
+        desc: 写入
+        headers: ''
+        method: post
+        params: ''
+        retry_config:
+          max_retries: 3
+          retry_enabled: true
+          retry_interval: 100
+        selected: false
+        ssl_verify: true
+        timeout:
+          max_connect_timeout: 0
+          max_read_timeout: 0
+          max_write_timeout: 0
+        title: dify-memory2
+        type: http-request
+        url: http://172.17.0.1:5005/add
+        variables: []
+      height: 150
+      id: '1766842751858'
+      position:
+        x: 3860
+        y: 179
+      positionAbsolute:
+        x: 3860
+        y: 179
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 事实提取器
+        model:
+          completion_params:
+            temperature: 0
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: 08fa0c68-fec4-4b9b-9d6e-ce0fb98adb1f
+          role: system
+          text: '你是一个由 Python 脚本支持的“记忆管理员”。你的任务是从用户的当前对话中，提取关于用户的【关键事实】或【偏好设置】。
+
+
+            输入内容：{{#sys.query#}}{{#llm.text#}}
+
+
+            提取规则：
+
+            1. 使用第三人称描述（如“用户...”）。
+
+            2. 只提取：姓名、地点、职业、爱好、计划、身体状况、人际关系等长期有效的信息。
+
+            3. 如果用户只是在闲聊（如“你好”、“哈哈”）、提问（如“天气怎么样”）或指令（如“帮我写代码”），请直接输出单词：PASS
+
+            4. 不要输出任何解释，只输出提取后的事实。
+
+
+            示例：
+
+            用户：我叫张三，是做程序员的。
+
+            输出：用户叫张三，职业是程序员。
+
+
+            用户：今天天气真好。
+
+            输出：PASS'
+        selected: false
+        structured_output_enabled: false
+        title: Fact_Extractor
+        type: llm
+        vision:
+          enabled: false
+      height: 116
+      id: '1766844162435'
+      position:
+        x: 3513.714285714286
+        y: 196
+      positionAbsolute:
+        x: 3513.714285714286
+        y: 196
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - sys
+          - query
+        desc: 对话协调与意图识别 Agent (The Router)
+        model:
+          completion_params:
+            temperature: 0.5
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: 035f1262-8072-4427-a47d-2f431ca06246
+          role: system
+          text: "# Role\n你是一个专业的健康管理助手的“大脑中枢”。你的任务是分析用户的输入（文本），识别用户的核心意图、提取关键信息，并感知用户的情绪状态。\n\
+            \n# User Profile Context\n{{{#context#}}}}{{#sys.query#}}\n\n# Task\n\
+            请分析用户的输入，输出一个 JSON 格式的结果，不要包含任何 Markdown 格式。\n\n1. **Intent (意图)**: 从以下类别中选择一个最匹配的：\n\
+            \   - `record_data`: 用户想要记录血糖、饮食、运动或用药（例如：“我刚测了7.8”，“吃了这碗面”）。\n   - `instant_analysis`:\
+            \ 用户询问当前数值的含义或请求建议（例如：“这个血糖高吗？”，“我该怎么办？”）。\n   - `knowledge_query`: 用户询问医学概念或科普知识（例如：“什么是糖化血红蛋白？”）。\n\
+            \   - `emotional_support`: 用户表达沮丧、焦虑、放弃或开心求表扬（例如：“我太难了”，“终于达标了”）。\n  \
+            \ - `chat`: 普通闲聊。\n\n2. **Entities (实体提取)**: 如果是 `record_data`，尝试提取：\n\
+            \   - `value`: 数值 (如 7.8)\n   - `unit`: 单位 (默认 mmol/L)\n   - `item`: 食物名/药品名/运动类型\n\
+            \   - `time`: 时间点\n\n3. **Emotion (情绪)**: 标记为 `positive` (积极), `neutral`\
+            \ (中性), `anxious` (焦虑), `depressed` (沮丧)。\n\n# Output Format (JSON Only)\n\
+            {\n  \"intent\": \"record_data\",\n  \"entities\": {\n    \"value\": 7.8,\n\
+            \    \"unit\": \"mmol/L\",\n    \"item\": null,\n    \"time\": \"now\"\
+            \n  },\n  \"emotion\": \"neutral\",\n  \"summary\": \"用户记录了当前血糖为7.8\"\n\
+            }"
+        selected: false
+        title: 意图识别纯文本
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '1766850848375'
+      position:
+        x: 1448
+        y: 381
+      positionAbsolute:
+        x: 1448
+        y: 381
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: glm-4.6v
+          provider: langgenius/zhipuai/zhipuai
+        prompt_template:
+        - id: 56302c79-3c68-490d-8209-6db8e20d70de
+          role: system
+          text: 你可以分析用户输入的{{#sys.files#}}，理解意思，并将文本转交给意图识别助手
+        selected: false
+        title: 图片分析
+        type: llm
+        vision:
+          configs:
+            detail: low
+            variable_selector:
+            - sys
+            - files
+          enabled: true
+      height: 88
+      id: '1766849726566'
+      position:
+        x: 1086
+        y: 191
+      positionAbsolute:
+        x: 1086
+        y: 191
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: 9bb385a1-191a-480f-97bf-020eeac87b45
+            value: ''
+            varType: array[file]
+            variable_selector:
+            - sys
+            - files
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 判断是否有图
+        type: if-else
+      height: 124
+      id: '1766851226911'
+      position:
+        x: 724
+        y: 161
+      positionAbsolute:
+        x: 724
+        y: 161
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 内分泌数据分析专家
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-3-pro-preview
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: 4d935f03-d67d-490a-9ed6-46118a28d4e8
+          role: system
+          text: "# Role\n你是由九安医疗开发的“内分泌数据分析专家”。你的核心能力是基于数据发现隐藏的血糖规律，而不仅仅是汇报数值。\n\n\
+            # Inputs\n- 用户档案: {{#1766842206991.body#}} (包含病程、用药方案、目标范围)\n- 当前输入: {{#1766850848375.text#}}or{{#17668548655180.text#}}(当前的请求)\n\
+            \n参考：\n{{#context#}}\n\n# Analysis Logic (COT - Chain of Thought)\n请按以下步骤思考（Monologue），不要输出给用户，仅用于生成最终建议：\n\
+            1. **Gap Analysis**: 当前数值与目标范围的偏差是多少？\n2. **Trend Check**: 结合 `recent_history`，判断这是偶发波动还是周期性规律？(例如：是否连续三天早餐后都高？)\n\
+            3. **Causality**: 尝试寻找原因。\n   - 饮食：是否有高GI食物记录？\n   - 运动：近期活动量是否减少？\n \
+            \  - 药物：是否漏服？\n4. **Risk Assessment**: 是否存在低血糖风险（<3.9）或酮体风险（>13.9）？\n\n\
+            # Output Requirements\n请输出一段简练的分析报告，包含三个部分：\n1. **数据解读**: \"当前血糖 8.5 mmol/L，略高于您的目标上限（7.8）。\"\
+            \n2. **规律洞察**: \"我注意到您最近三天晚餐后都有类似的升高趋势，这可能与晚餐碳水占比有关。\"\n3. **微行动建议**:\
+            \ \"建议今晚尝试将米饭减少1/3，增加绿叶蔬菜，并在饭后散步15分钟看看效果。\"\n\n# Constraints\n- 语气客观、严谨。\n\
+            - **严禁**调整药物剂量（如“多打2个单位胰岛素”），这是红线。只能建议“咨询医生调整方案”。"
+        selected: false
+        title: 内分泌数据分析专家
+        type: llm
+        vision:
+          enabled: false
+      height: 116
+      id: '1766851580944'
+      position:
+        x: 2472
+        y: 390
+      positionAbsolute:
+        x: 2472
+        y: 390
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 教育科普 Agent (The Educator - RAG)
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: df0f26d8-c5ac-4342-b1d7-c42ad8ce5ef8
+          role: system
+          text: "# Role\n你是九安健康学院的“金牌科普讲师”。你擅长将晦涩的/翻译成老百姓听得懂的大白话。\n\n# Knowledge Context\n\
+            {{#context#}} (来自RAG检索的指南内容)\n\n# User Question\n{{#sys.query#}}\n{{#1766860921034.result#}}\n\
+            \n# Pedagogical Strategy (教学策略)\n1. **Direct Answer**: 先用一句话直接回答用户的核心疑问。\n\
+            2. **Metaphor (关键)**: 必须使用一个生活化的比喻来解释医学原理。\n   - *Example*: 解释“胰岛素抵抗”\
+            \ -> \"这就好比你家的门锁生锈了（抵抗），虽然你有钥匙（胰岛素），但很难把门打开让客人（血糖）进去。\"\n3. **Evidence**:\
+            \ 引用指南中的数据增加权威性（\"根据2020版指南...\"）。\n4. **Action**: 知识如果不转化为行动就没有意义。结尾必须关联“现在该怎么做”。\n\
+            \n# Tone\n亲切、生动、像邻家懂医术的大哥/大姐。避免使用堆砌的专业术语，如果必须用，紧跟解释。"
+        selected: false
+        title: '教育科普 Agent '
+        type: llm
+        vision:
+          enabled: false
+      height: 116
+      id: '1766851691399'
+      position:
+        x: 2472
+        y: 196
+      positionAbsolute:
+        x: 2472
+        y: 196
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 认知行为疗法 (CBT) 引导。
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: a136a49b-db5b-4bbd-8e80-74804558ac9c
+          role: system
+          text: "# Role\n你是一位专精于“糖尿病痛苦（Diabetes Distress）”的心理咨询师。你运用CBT技术帮助用户缓解焦虑、自责和职业倦怠感。\n\
+            \n# User  Input\n用户输入: {{#sys.query#}}\n意图识别：{{#1766860921034.result#}}\n\
+            \n参考：\n{{#context#}}\n\n# CBT Intervention Steps\n1. **Validation (共情)**:\
+            \ \"听到你这么说，我能感觉到你现在的无力感，长期控制血糖确实是一场漫长的马拉松。\"\n2. **Identify Distortion\
+            \ (识别认知扭曲)**:\n   - 如果用户说“我这辈子完了” -> 识别为【灾难化思维】。\n   - 如果用户说“只要血糖高一次就是失败”\
+            \ -> 识别为【非黑即白】。\n3. **Reframing (认知重构)**:\n   - 不要直接反驳。使用“苏格拉底式提问”引导用户。\n\
+            \   - *Example*: \"这一次的数值波动，真的能代表你所有的努力都白费了吗？如果我们看上周的数据，是不是大部分时间都在达标？\"\
+            \n4. **Behavioral Activation (行为激活)**: 建议一个极小的、容易完成的快乐动作（如“深呼吸三次”、“听一首喜欢的歌”）。\n\
+            \n# Tone\n温暖、包容、坚定。不要说教，要接纳。"
+        selected: false
+        title: 激励与情感支持 Agent (The Therapist - CBT)
+        type: llm
+        vision:
+          enabled: false
+      height: 116
+      id: '1766851785980'
+      position:
+        x: 2472
+        y: 0
+      positionAbsolute:
+        x: 2472
+        y: 0
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: 对话协调与意图识别 Agent (The Router)
+        model:
+          completion_params:
+            temperature: 0.5
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: 035f1262-8072-4427-a47d-2f431ca06246
+          role: system
+          text: "# Role\n用户上传了一张图片，视觉模型对其描述如下：{{#1766849726566.text#}}。 用户的文字输入是：{{#sys.query#}}。\
+            \ 请结合图片内容和文字，判断用户的核心意图、提取关键信息，并感知用户的情绪状态。\n\n# User Profile Context\n\
+            {{#1766849726566.text#}}\n# Task\n请分析用户的输入，输出一个 JSON 格式的结果，不要包含任何 Markdown\
+            \ 格式。\n\n1. **Intent (意图)**: 从以下类别中选择一个最匹配的：\n   - `record_data`: 用户想要记录血糖、饮食、运动或用药（例如：“我刚测了7.8”，“吃了这碗面”）。\n\
+            \   - `instant_analysis`: 用户询问当前数值的含义或请求建议（例如：“这个血糖高吗？”，“我该怎么办？”）。\n \
+            \  - `knowledge_query`: 用户询问医学概念或科普知识（例如：“什么是糖化血红蛋白？”）。\n   - `emotional_support`:\
+            \ 用户表达沮丧、焦虑、放弃或开心求表扬（例如：“我太难了”，“终于达标了”）。\n   - `chat`: 普通闲聊。\n\n2. **Entities\
+            \ (实体提取)**: 如果是 `record_data`，尝试提取：\n   - `value`: 数值 (如 7.8)\n   - `unit`:\
+            \ 单位 (默认 mmol/L)\n   - `item`: 食物名/药品名/运动类型\n   - `time`: 时间点\n\n3. **Emotion\
+            \ (情绪)**: 标记为 `positive` (积极), `neutral` (中性), `anxious` (焦虑), `depressed`\
+            \ (沮丧)。\n\n# Output Format (JSON Only)\n{\n  \"intent\": \"record_data\"\
+            ,\n  \"entities\": {\n    \"value\": 7.8,\n    \"unit\": \"mmol/L\",\n\
+            \    \"item\": null,\n    \"time\": \"now\"\n  },\n  \"emotion\": \"neutral\"\
+            ,\n  \"summary\": \"用户记录了当前血糖为7.8\"\n}"
+        selected: false
+        title: 意图识别 (带视觉)
+        type: llm
+        vision:
+          enabled: false
+      height: 132
+      id: '17668548655180'
+      position:
+        x: 1448
+        y: 169
+      positionAbsolute:
+        x: 1448
+        y: 169
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        classes:
+        - id: '1'
+          name: 'Medical_Task (医疗任务)
+
+            关键词/示例：血糖8.0、我头晕、什么是胰岛素、记录一下、分析数据。'
+        - id: '2'
+          name: 'Chat (闲聊)
+
+            关键词/示例：你好、在吗、你是谁、再见、早安、晚安、嗨。'
+        instructions: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        query_variable_selector:
+        - '1766828924560'
+        - sys.query
+        selected: false
+        title: 问题分类器
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 170
+      id: '1766855892240'
+      position:
+        x: 1086
+        y: 390
+      positionAbsolute:
+        x: 1086
+        y: 390
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        model:
+          completion_params:
+            temperature: 0.1
+          mode: chat
+          name: DeepSeek-V3-Fast
+          provider: axdlee/sophnet/sophnet
+        prompt_template:
+        - id: b7babc51-fedf-43d7-895e-1674ed52f37e
+          role: system
+          text: '# 角色
+
+            你是「小安智能助手」，九安医疗专属糖尿病血糖健康管理助手。
+
+            # 任务
+
+            用户正在和你闲聊。请根据用户的输入进行简短、友好的回复。回复内容应体现出专业、温暖且富有亲和力的形象。
+
+            # 用户输入
+
+            {{#sys.query#}}'
+        selected: false
+        title: '小安闲聊核心大脑 '
+        type: llm
+        vision:
+          enabled: false
+      height: 88
+      id: '17668565556480'
+      position:
+        x: 1448
+        y: 593
+      positionAbsolute:
+        x: 1448
+        y: 593
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        answer: '{{#17668565556480.text#}}'
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 103
+      id: '1766856614268'
+      position:
+        x: 1790
+        y: 585
+      positionAbsolute:
+        x: 1790
+        y: 585
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        dataset_ids:
+        - nArKjJ/eeCsWUwGIIi2d6uZjBDfPJ38/mKhl1qv7m+riS2sVg4H2veQsxSgwcViG
+        - MpOMudgrReVQZrsZCJ5PE46OZ9g+aWiW3vZW2LkAorAls/sfgmufEVIdNzAy8BIx
+        multiple_retrieval_config:
+          reranking_enable: true
+          reranking_mode: reranking_model
+          reranking_model:
+            model: netease-youdao/bce-reranker-base_v1
+            provider: langgenius/siliconflow/siliconflow
+          top_k: 4
+        query_variable_selector:
+        - '1766828924560'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 118
+      id: '1766860222886'
+      position:
+        x: 2110
+        y: 286
+      positionAbsolute:
+        x: 2110
+        y: 286
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    - data:
+        code: "def main(text_result, vision_result):\n    # 如果视觉意图有值（说明走了视觉分支），就用视觉的\n\
+          \    if vision_result:\n        return {\"result\": vision_result}\n   \
+          \ \n    # 否则用文本意图的（说明走了文本分支），如果都没值则为空\n    return {\"result\": text_result\
+          \ or \"\"}"
+        code_language: python3
+        outputs:
+          result:
+            children: null
+            type: string
+        selected: false
+        title: 意图合并 (Intent Merger)
+        type: code
+        variables:
+        - value_selector:
+          - '17668548655180'
+          - text
+          value_type: string
+          variable: vision_result
+        - value_selector:
+          - '1766850848375'
+          - text
+          value_type: string
+          variable: text_result
+      height: 52
+      id: '1766860921034'
+      position:
+        x: 1810
+        y: 286
+      positionAbsolute:
+        x: 1810
+        y: 286
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+    viewport:
+      x: -1059.1
+      y: 416.4
+      zoom: 0.7
+  rag_pipeline_variables: []
